@@ -235,6 +235,10 @@ class SimEnv:
     def get_agent_joint(self, agent_name):
         return self.robots_joint_pos[agent_name]
 
+    @property
+    def object_manager(self):
+        return self._object_manager
+
 
 def convert_mj_struct_to_namedtuple(mj_struct):
     """
