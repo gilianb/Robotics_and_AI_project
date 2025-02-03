@@ -6,7 +6,7 @@ workspace_x_lims = [-1.0, -0.45]
 workspace_y_lims = [-1.0, -0.45]
 
 
-def create_cube_stack(cube_positions, target_location, x_lims = workspace_x_lims, y_lim = workspace_y_lims):
+def create_cube_stack(cube_positions, target_location):
     """
     Create a stable stack of cubes at the specified target location.
 
@@ -17,7 +17,8 @@ def create_cube_stack(cube_positions, target_location, x_lims = workspace_x_lims
 
     #Check the limits
     # Check if the target location is within the workspace limits
-    if not (x_lims[0] <= target_location[0] and target_location[0] <= x_lims[1] and y_lim[0] <= target_location[1] and target_location[1]<= y_lim[1]):
+    if not (workspace_x_lims[0] <= target_location[0] <= workspace_x_lims[1] and workspace_y_lims[0] <= target_location[
+        1] <= workspace_y_lims[1]):
         raise ValueError("Target location is out of workspace limits")
 
     # Calculate the height of each cube (assuming all cubes have the same height)
