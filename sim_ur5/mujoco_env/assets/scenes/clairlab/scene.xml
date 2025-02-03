@@ -59,95 +59,74 @@
 <!--            <freejoint name="block3_fj"/>-->
 <!--            <geom type="box" size=".02 .02 .02" material="wood_material"/>-->
 <!--        </body>-->
-        <!-- Crayons remplaçant les blocs --><!-- Crayons allongés sur la table -->
 
-
-<!--<body name="pencil0" pos="-0.7 -0.6 0.03" quat="0. 0.707 0. 0.707">-->
-<!--    <freejoint name="pencil0_fj"/>-->
-<!--    <geom type="box" size="0.005 0.005 0.05" material="wood_material"/>-->
-<!--</body>-->
-
-<!--<body name="pencil1" pos="-0.7 -0.7 0.02" quat="0. 0.707 0. 0.707">-->
-<!--    <freejoint name="pencil1_fj"/>-->
-<!--    <geom type="box" size="0.005 0.005 0.05" material="wood_material"/>-->
-<!--</body>-->
-
-<!--<body name="pencil2" pos="-0.7 -0.8 0.03" quat="0. 0.707 0. 0.707">-->
-<!--    <freejoint name="pencil2_fj"/>-->
-<!--    <geom type="box" size="0.005 0.005 0.05" material="wood_material"/>-->
-<!--</body>-->
-
-<!--<body name="pencil3" pos="-0.7 -0.9 0.03" quat="0. 0.707 0. 0.707">-->
-<!--    <freejoint name="pencil3_fj"/>-->
-<!--    <geom type="box" size="0.005 0.005 0.05" material="wood_material"/>-->
-<!--</body>-->
-<!--&lt;!&ndash;        pour un kapla:<geom type="box" size="0.005 0.02 0.15" material="wood_material"/>&ndash;&gt;-->
 
 <!-- Niveau 1 -->
-<body name="kapla1" pos="-0.8 -0.6 0.03" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla1_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block0" pos="-0.8 -0.6 0.03" quat="0. 0.707 0 0.707">
+    <freejoint name="block0_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
-<body name="kapla2" pos="-0.8 -0.4 0.03" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla2_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block1" pos="-0.8 -0.4 0.03" quat="0. 0.707 0 0.707">
+    <freejoint name="block1_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
 <!-- Niveau 2 -->
-<body name="kapla3" pos="-0.7 -0.5 0.05" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla3_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block2" pos="-0.7 -0.5 0.05" quat="0. 0.707 0 0.707">
+    <freejoint name="block2_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
 
-<body name="kapla4" pos="-0.9 -0.5 0.05" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla4_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block3" pos="-0.9 -0.5 0.05" quat="0. 0.707 0 0.707">
+    <freejoint name="block3_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
 
 <!-- Niveau 3 -->
-<body name="kapla5" pos="-0.8 -0.6 0.07" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla5_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block4" pos="-0.8 -0.6 0.07" quat="0. 0.707 0 0.707">
+    <freejoint name="block4_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
-<body name="kapla6" pos="-0.8 -0.4 0.07" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla6_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block5" pos="-0.8 -0.4 0.07" quat="0. 0.707 0 0.707">
+    <freejoint name="block5_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
 <!-- Niveau 4 -->
-<body name="kapla7" pos="-0.7 -0.5 0.09" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla7_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block6" pos="-0.7 -0.5 0.09" quat="0. 0.707 0 0.707">
+    <freejoint name="block6_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
 
-<body name="kapla8" pos="-0.9 -0.5 0.09" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla8_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block7" pos="-0.9 -0.5 0.09" quat="0. 0.707 0 0.707">
+    <freejoint name="block7_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
 
 <!-- Niveau 5 -->
-<body name="kapla9" pos="-0.8 -0.6 0.11" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla9_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block8" pos="-0.8 -0.6 0.11" quat="0. 0.707 0 0.707">
+    <freejoint name="block8_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
-<body name="kapla10" pos="-0.8 -0.4 0.11" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla10_fj"/>
-    <geom type="box" size="0.005 0.02 0.15" material="wood_material"/>
+<body name="block9" pos="-0.8 -0.4 0.11" quat="0. 0.707 0 0.707">
+    <freejoint name="block9_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
 </body>
 
 <!-- Niveau 6 -->
-<body name="kapla11" pos="-0.7 -0.5 0.13" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla11_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block10" pos="-0.7 -0.5 0.13" quat="0. 0.707 0 0.707">
+    <freejoint name="block10_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
 
-<body name="kapla12" pos="-0.9 -0.5 0.13" quat="0. 0.707 0 0.707">
-    <freejoint name="kapla12_fj"/>
-    <geom type="box" size="0.005 0.15 0.02" material="wood_material"/>
+<body name="block11" pos="-0.9 -0.5 0.13" quat="0. 0.707 0 0.707">
+    <freejoint name="block11_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
 </body>
+
 
 
 
