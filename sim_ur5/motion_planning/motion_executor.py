@@ -290,6 +290,32 @@ class MotionExecutor:
                                    max_planning_time=max_planning_time,
                                    max_length_to_distance_ratio=max_length_to_distance_ratio)
 
+
+    def plan_and_move_to_xyz_facing_down(self, robot_name, target_xyz, speed=1.0, acceleration=1.0, blend_radius=0.05,
+                                         tolerance=0.003, max_planning_time=5, max_length_to_distance_ratio=2,
+                                         cannonized_config=True):
+        target_transform = compose_transformation_matrix(FACING_DOWN_R, target_xyz)
+        goal_config = self.facing_down_ik(robot_name, target_transform, max_tries=50)
+
+        logging.info(f"Planning and moving to xyz facing down {robot_name} from"
+                     f" {self.env.robots_joint_pos[robot_name]} to {goal_config}"
+                     f" target: {target_xyz}")
+
+        if goal_config is None or len(goal_config) == 0:
+            print(f"WARNING: IK solution not found for {robot_name}")
+
+        if cannonized_config:
+            goal_config = canonize_config(goal_config)
+
+        return self.plan_and_moveJ(robot_name=robot_name,
+                                   target_joints=goal_config,
+                                   speed=speed,
+                                   acceleration=acceleration,
+                                   blend_radius=blend_radius,
+                                   tolerance=tolerance,
+                                   max_planning_time=max_planning_time,
+                                   max_length_to_distance_ratio=max_length_to_distance_ratio)
+
     def moveL(self, robot_name, target_position, speed=0.1, tolerance=0.003, facing_down=True, max_steps=1000):
         self.zero_all_robots_vels_except(robot_name)
 

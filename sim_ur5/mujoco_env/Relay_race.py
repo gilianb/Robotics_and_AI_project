@@ -1,6 +1,9 @@
 from sim_ur5.mujoco_env.sim_env import SimEnv
 from sim_ur5.motion_planning.motion_executor import MotionExecutor
 
+workspace_x_lims = [-1.0, -0.45]
+workspace_y_lims = [-1.0, -0.45]
+
 
 def relay_race_transfer(start_position, handover_position):
     """
@@ -10,6 +13,13 @@ def relay_race_transfer(start_position, handover_position):
     :param handover_position: Position where the handover occurs
     :param end_position: Final position where the cube is placed
     """
+
+    # Check the limits
+    # Check if the target location is within the workspace limits
+    if not (workspace_x_lims[0] <= handover_position[0] <= workspace_x_lims[1] and workspace_y_lims[0] <= handover_position[
+        1] <= workspace_y_lims[1]):
+        raise ValueError("Target location is out of workspace limits")
+
     # Initial pickup by ur5e_2
     ur5e_2_initial_position = [start_position[0], start_position[1], start_position[2] + 0.1]
     executor.plan_and_move_to_xyz_facing_down("ur5e_2", ur5e_2_initial_position)
