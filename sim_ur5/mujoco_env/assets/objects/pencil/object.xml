@@ -1,0 +1,13 @@
+<mujoco>
+    <asset>
+        <mesh name="triangle_pencil" file="meshes/triangle_pencil.obj" scale="0.015 0.015 0.15"/>
+        <material name="wood_material" texture="textures/wood.png" texrepeat="50 50" texuniform="true"/>
+    </asset>
+
+    <worldbody>
+        <body name="triangle_pencil" pos="-0.7 -0.6 0.03" quat="0. 0.707 0. 0.707">
+            <freejoint name="triangle_pencil_fj"/>
+            <geom type="mesh" mesh="triangle_pencil" material="wood_material"/>
+        </body>
+    </worldbody>
+</mujoco>

@@ -25,17 +25,20 @@ def relay_race_transfer(start_position, handover_position):
     executor_2.move_home()
     # Initial pickup by ur5e_2
     executor_2.pick_up( start_position[0], start_position[1],0, start_position[2] + 0.12)
-
-    # Move ur5e_2 to handover position
-    executor_2.plan_and_move_to_xyzrz(handover_position[0], handover_position[1], handover_position[2]+0.3, 0.78)
+    executor_2.move_home()
 
     # Handover to ur5e_1
     executor_1.plan_and_move_to_xyzrz(handover_position[0], handover_position[1], handover_position[2], 0)
+
 
     # turn ur5e_1 head
     ur5e_1_position = list(executor_1.getActualQ())
     ur5e_1_position[-2] = -ur5e_1_position[-2]
     executor_1.moveL_relative(ur5e_1_position)
+
+    # Move ur5e_2 to handover position
+    executor_2.plan_and_move_to_xyzrz(handover_position[0], handover_position[1], handover_position[2]+0.4, 0.78)
+
 
     # Movedown ur5e_2
     executor_2.plan_and_move_to_xyzrz(handover_position[0], handover_position[1], handover_position[2]+0.25, 0)
@@ -55,9 +58,10 @@ block_positions = [
     [-0.7, -0.8, 0.03],
     [-0.7, -0.9, 0.03]]
 
-handover_position = [-0.6, -0.6, 0.15]
 
-start_position = [-0.7, -0.6, 0.03]
+handover_position=[-0.5, -0.5, 0.05]
+
+start_position = [-0.5, -0.5, 0.03]
 
 #create the robot
 motion_planner = MotionPlanner()
@@ -65,10 +69,10 @@ gt = GeometryAndTransforms.from_motion_planner(motion_planner)
 executor_1 = ManipulationController(ur5e_1["ip"], ur5e_1["name"], motion_planner, gt)
 executor_2 = ManipulationController(ur5e_2["ip"], ur5e_2["name"], motion_planner, gt)
 
-executor_1.speed = 0.4
-executor_1.acceleration = 0.4
-executor_2.speed = 0.4
-executor_2.acceleration = 0.4
+executor_1.speed = 2.
+executor_1.acceleration = 1.
+executor_2.speed = 2.
+executor_2.acceleration = 1.
 relay_race_transfer(start_position, handover_position)
 
 

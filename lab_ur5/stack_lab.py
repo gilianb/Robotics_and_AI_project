@@ -27,15 +27,11 @@ def create_cube_stack(cube_positions, target_location):
 
     # Calculate the height of each cube (assuming all cubes have the same height)
     cube_height = 0.05  # Example height, adjust as necessary
+    executor.move_home()
 
     # Place each cube at the target location, stacking them vertically
     for i, position in enumerate(cube_positions):
-        # Initial position for the robot to be above the cube
-        # new_init_position = [
-        #     position[0],
-        #     position[1],
-        #     position[2] +  0.1
-        # ]
+
         # New position for the cube in the stack
         new_target_position = [
             target_location[0],
@@ -43,7 +39,7 @@ def create_cube_stack(cube_positions, target_location):
             target_location[2] + i * cube_height
         ]
 
-        executor.move_home()
+
         executor.pick_up(position[0],position[1],0,position[2]+0.12)
         executor.plan_and_move_to_xyzrz(new_target_position[0],new_target_position[1],new_target_position[2],0)
         executor.put_down(new_target_position[0],new_target_position[1],0,new_target_position[2])
@@ -56,14 +52,14 @@ block_positions = [
     [-0.7, -0.8, 0.03],
     [-0.7, -0.9, 0.03]]
 
-target_location = [-0.5, -0.5, 0.15]
+target_location = [-0.6, -0.5, 0.1]
 
 #create the robot
 motion_planner = MotionPlanner()
 gt = GeometryAndTransforms.from_motion_planner(motion_planner)
 executor = ManipulationController(ur5e_2["ip"], ur5e_2["name"], motion_planner, gt)
-executor.speed = 0.3
-executor.acceleration = 0.3
+executor.speed = 2.
+executor.acceleration = 0.5
 create_cube_stack(block_positions,target_location)
 
 
