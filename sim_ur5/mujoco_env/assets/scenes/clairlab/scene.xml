@@ -42,90 +42,90 @@
         </body>
 
 
-        <!-- Blocks representing 'X' -->
-        <body name="block0" pos="-0.5 -0.8 0.025" quat="0. 0. 1. 0.">
-            <freejoint name="block0_fj"/>
-            <geom type="box" size=".02 .02 .02" material="wood_material"/>
-        </body>
-        <body name="block1" pos="-0.5 -0.7 0.025" quat="0. 0. 1. 0.">
-            <freejoint name="block1_fj"/>
-            <geom type="box" size=".02 .02 .02" material="wood_material"/>
-        </body>
-        <body name="block2" pos="-0.5 -0.6 0.025" quat="0. 0. 1. 0.">
-            <freejoint name="block2_fj"/>
-            <geom type="box" size=".02 .02 .02"  material="wood_material"/>
-        </body>
-        <body name="block3" pos="-0.6 -0.8 0.025" quat="0. 0. 1. 0.">
-            <freejoint name="block3_fj"/>
-            <geom type="box" size=".02 .02 .02" material="wood_material"/>
-        </body>
+<!--        &lt;!&ndash; Blocks representing 'X' &ndash;&gt;-->
+<!--        <body name="block0" pos="-0.5 -0.8 0.025" quat="0. 0. 1. 0.">-->
+<!--            <freejoint name="block0_fj"/>-->
+<!--            <geom type="box" size=".02 .02 .02" material="wood_material"/>-->
+<!--        </body>-->
+<!--        <body name="block1" pos="-0.5 -0.7 0.025" quat="0. 0. 1. 0.">-->
+<!--            <freejoint name="block1_fj"/>-->
+<!--            <geom type="box" size=".02 .02 .02" material="wood_material"/>-->
+<!--        </body>-->
+<!--        <body name="block2" pos="-0.5 -0.6 0.025" quat="0. 0. 1. 0.">-->
+<!--            <freejoint name="block2_fj"/>-->
+<!--            <geom type="box" size=".02 .02 .02"  material="wood_material"/>-->
+<!--        </body>-->
+<!--        <body name="block3" pos="-0.6 -0.8 0.025" quat="0. 0. 1. 0.">-->
+<!--            <freejoint name="block3_fj"/>-->
+<!--            <geom type="box" size=".02 .02 .02" material="wood_material"/>-->
+<!--        </body>-->
 
 
-<!--&lt;!&ndash; Niveau 1 &ndash;&gt;-->
-<!--<body name="block0" pos="-0.8 -0.6 0.03" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block0_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 1 -->
+<body name="block0" pos="-0.8 -0.6 0.03" quat="0. 0.707 0 0.707">
+    <freejoint name="block0_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--<body name="block1" pos="-0.8 -0.4 0.03" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block1_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<body name="block1" pos="-0.8 -0.4 0.03" quat="0. 0.707 0 0.707">
+    <freejoint name="block1_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--&lt;!&ndash; Niveau 2 &ndash;&gt;-->
-<!--<body name="block2" pos="-0.7 -0.5 0.05" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block2_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 2 -->
+<body name="block2" pos="-0.7 -0.5 0.05" quat="0. 0.707 0 0.707">
+    <freejoint name="block2_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
-<!--<body name="block3" pos="-0.9 -0.5 0.05" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block3_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<body name="block3" pos="-0.9 -0.5 0.05" quat="0. 0.707 0 0.707">
+    <freejoint name="block3_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
-<!--&lt;!&ndash; Niveau 3 &ndash;&gt;-->
-<!--<body name="block4" pos="-0.8 -0.6 0.07" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block4_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 3 -->
+<body name="block4" pos="-0.8 -0.6 0.07" quat="0. 0.707 0 0.707">
+    <freejoint name="block4_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--<body name="block5" pos="-0.8 -0.4 0.07" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block5_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<body name="block5" pos="-0.8 -0.4 0.07" quat="0. 0.707 0 0.707">
+    <freejoint name="block5_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--&lt;!&ndash; Niveau 4 &ndash;&gt;-->
-<!--<body name="block6" pos="-0.7 -0.5 0.09" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block6_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 4 -->
+<body name="block6" pos="-0.7 -0.5 0.09" quat="0. 0.707 0 0.707">
+    <freejoint name="block6_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
-<!--<body name="block7" pos="-0.9 -0.5 0.09" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block7_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<body name="block7" pos="-0.9 -0.5 0.09" quat="0. 0.707 0 0.707">
+    <freejoint name="block7_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
-<!--&lt;!&ndash; Niveau 5 &ndash;&gt;-->
-<!--<body name="block8" pos="-0.8 -0.6 0.11" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block8_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 5 -->
+<body name="block8" pos="-0.8 -0.6 0.11" quat="0. 0.707 0 0.707">
+    <freejoint name="block8_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--<body name="block9" pos="-0.8 -0.4 0.11" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block9_fj"/>-->
-<!--    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>-->
-<!--</body>-->
+<body name="block9" pos="-0.8 -0.4 0.11" quat="0. 0.707 0 0.707">
+    <freejoint name="block9_fj"/>
+    <geom type="box" size="0.01 0.01 0.15" material="wood_material"/>
+</body>
 
-<!--&lt;!&ndash; Niveau 6 &ndash;&gt;-->
-<!--<body name="block10" pos="-0.7 -0.5 0.13" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block10_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<!-- Niveau 6 -->
+<body name="block10" pos="-0.7 -0.5 0.13" quat="0. 0.707 0 0.707">
+    <freejoint name="block10_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
-<!--<body name="block11" pos="-0.9 -0.5 0.13" quat="0. 0.707 0 0.707">-->
-<!--    <freejoint name="block11_fj"/>-->
-<!--    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>-->
-<!--</body>-->
+<body name="block11" pos="-0.9 -0.5 0.13" quat="0. 0.707 0 0.707">
+    <freejoint name="block11_fj"/>
+    <geom type="box" size="0.01 0.15 0.01" material="wood_material"/>
+</body>
 
 
 
