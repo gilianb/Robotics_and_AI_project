@@ -95,54 +95,69 @@ def initialize_environment(block_positions):
 def detect_and_sort_blocks(block_positions):
     return sorted(block_positions, key=lambda x: x[2], reverse=True)
 
-def pick_up_part3(executor, robot_name, x, y, start_height=0.2, descent_step=0.002, retract_height=0.01, speed=0.01):
-    """
-    Descente progressive jusqu'à ce que le robot détecte un ralentissement anormal, indiquant un contact.
-    """
+import logging
+import numpy as np
 
-    logging.info(f"{robot_name} attempting to pick up at ({x}, {y}) from start height {start_height}")
+def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.001, retract_height=0.002, speed=0.01):
+    """
+    Descente progressive jusqu'à détection de contact à partir de la vitesse du robot,
+    puis récupération de la position réelle de l'effecteur à partir de la simulation.
+    """
+    logging.info(f"🔹 {robot_name} attempting to pick up at ({x}, {y}) from start height {start_height}")
 
     # Déplacement au-dessus de la position cible
-    res = executor.plan_and_move_to_xyz_facing_down(robot_name, [x, y, start_height], speed=2.0, acceleration=2.0)
-    if not res:
-        logging.error(f"{robot_name} unable to reach starting position. Aborting pick up.")
+    if not executor.plan_and_move_to_xyz_facing_down(robot_name, [x, y, start_height], speed=2.0, acceleration=2.0):
+        logging.error(f"❌ {robot_name} unable to reach start position. Aborting pick-up.")
         return False
 
     above_pickup_config = executor.env.robots_joint_pos[robot_name]
+    executor.deactivate_grasp()
 
     # Descente progressive jusqu'à détection de contact
-    logging.info(f"{robot_name} moving down slowly until contact is detected...")
+    logging.info(f"🔻 {robot_name} descending slowly until contact is detected...")
     current_z = start_height
-    previous_velocity = np.inf  # Une grande valeur au départ pour comparer
+    previous_velocity = np.inf  # Valeur initiale élevée pour détecter une baisse
+    detected_contact = False
 
-    current_z -= descent_step
-    executor.moveL(robot_name, (x, y, current_z), speed=speed, tolerance=0.001)
+    while current_z > 0.02:  # Empêcher la descente excessive
+        current_z -= descent_step
+        executor.moveL(robot_name, (x, y, current_z), speed=speed, tolerance=0.001)
 
-    # Obtenir la vitesse actuelle
-    current_velocity = np.linalg.norm(executor.env.robots_joint_velocities[robot_name])
+        # Récupérer la vitesse actuelle du robot
+        current_velocity = np.linalg.norm(executor.env.robots_joint_velocities[robot_name])
 
-    # Vérifier si la vitesse diminue brusquement (contact)
-    if current_velocity < previous_velocity:  # Seuil de détection de contact
-        logging.info(f"{robot_name} detected contact at Z = {current_z} (velocity drop)")
+        # Vérifier si la vitesse diminue brusquement (détection de contact)
+        if current_velocity < previous_velocity * 0.7:  # Seuil ajustable (70% de la vitesse précédente)
+            logging.info(f"⚠️ {robot_name} detected contact at Z = {current_z} (velocity drop)")
+            detected_contact = True
+            break  # Arrêter immédiatement la descente dès que le contact est détecté
+
+        previous_velocity = current_velocity  # Mise à jour pour la prochaine itération
+
+    if not detected_contact:
+        logging.warning(f"⚠️ {robot_name} did not detect contact. Retrying...")
+        return False
+
+    # Récupération de la position exacte de l'effecteur dans la simulation
+    ee_position = executor.env.get_ee_pos()
+    grasp_z = ee_position[2] + retract_height
+
+    logging.info(f"📏 Adjusted grasp height based on simulation: {grasp_z}")
 
     # Ajustement fin avant saisie
-    grasp_z = current_z + retract_height
-    executor.deactivate_grasp()  # Ouvrir le gripper avant de descendre
-    executor.moveL(robot_name, (x, y, grasp_z), speed=1, tolerance=0.003)
-
-    # Activation de la prise
+    executor.moveL(robot_name, (x, y, grasp_z), speed=1.0, tolerance=0.003)
+    logging.info(f"🔄 Activating gripper for {robot_name}...")
     executor.activate_grasp()
 
-    # Remontée à la position initiale
-    executor.moveJ(robot_name, above_pickup_config, speed=2.0, acceleration=2.0, tolerance=0.05)
-
-    # Vérification finale
+    # Vérifier si la prise est réussie
     if not executor.env.is_object_grasped():
-        logging.warning(f"{robot_name} grasp failed. Releasing and retrying.")
+        logging.warning(f"⚠️ {robot_name} failed to grasp the object. Retrying...")
         executor.deactivate_grasp()
         return False
 
-    logging.info(f"{robot_name} successfully grasped the Kapla!")
+    logging.info(f"✅ {robot_name} successfully grasped the Kapla! Retracting now.")
+    executor.moveJ(robot_name, above_pickup_config, speed=2.0, acceleration=2.0, tolerance=0.05)
+
     return True
 
 def disassemble_block_tower(executor, block_positions, pile_positions, block_height=0.015):
@@ -150,13 +165,12 @@ def disassemble_block_tower(executor, block_positions, pile_positions, block_hei
     for i, position in enumerate(sorted_blocks):
         pile_index = i % 4
         target_pile = pile_positions[pile_index]
-        new_target_position_up = [target_pile[0], target_pile[1], 0.2 + target_pile[2] + (i // 3) * block_height]
+        new_target_position_up = [target_pile[0], target_pile[1], 0.2 + target_pile[2] + (i // 4) * block_height]
         new_target_position = [target_pile[0], target_pile[1], target_pile[2] + (i // 3) * block_height]
 
-
-
         x, y = position[0], position[1]
-        start_height = position[2] + 0.03  # Estimation initiale
+        start_height = position[2] + 0.05  # Estimation initiale
+
 
         # Utiliser la nouvelle fonction pour récupérer le Kapla
         success = pick_up_part3(executor, "ur5e_2", x, y, start_height)
@@ -165,12 +179,12 @@ def disassemble_block_tower(executor, block_positions, pile_positions, block_hei
             continue
 
         # Déplacer le Kapla vers la pile
-
         executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
         executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position)
+        executor.deactivate_grasp()
         executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
 
-        executor.deactivate_grasp()
+
 
 def main():
     block_positions = [
@@ -181,7 +195,7 @@ def main():
         [-0.8, -0.6, 0.11], [-0.8, -0.4, 0.11],
         [-0.7, -0.5, 0.13], [-0.9, -0.5, 0.13]
     ]
-    pile_positions = [[-0.5, -0.5, 0.05], [-0.5, -0.5, 0.03], [-0.7, -0.8, 0.03], [-0.7, -0.8, 0.03]]
+    pile_positions = [[-0.5, -0.5, 0.02], [-0.5, -0.5, 0.02], [-0.8, -0.8, 0.02], [-0.8, -0.8, 0.02]]
 
     env, executor = initialize_environment(block_positions)
     disassemble_block_tower(executor, block_positions, pile_positions)
