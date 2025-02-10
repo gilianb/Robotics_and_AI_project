@@ -191,7 +191,7 @@ class ManipulationController(RobotInterfaceWithGripper):
                      f"pose in robot frame:{target_pose_robot}")
 
         shoulder_constraint = 0.15 if z < 0.2 else 0.35
-        goal_config = self.find_ik_solution(target_pose_robot, max_tries=50, for_down_movement=for_down_movement,)
+        goal_config = self.find_ik_solution(target_pose_robot, max_tries=50, for_down_movement=for_down_movement)
         return self.plan_and_moveJ(goal_config, speed, acceleration, visualise)
         # motion planner is automatically updated after movement
 
