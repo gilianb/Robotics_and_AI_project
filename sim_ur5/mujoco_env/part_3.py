@@ -98,7 +98,7 @@ def detect_and_sort_blocks(block_positions):
 import logging
 import numpy as np
 
-def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.001, retract_height=0.002, speed=0.01):
+def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.001, retract_height=0.002, speed=0.1):
     """
     Descente progressive jusqu'à détection de contact à partir de la vitesse du robot,
     puis récupération de la position réelle de l'effecteur à partir de la simulation.
@@ -127,7 +127,7 @@ def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.
         current_velocity = np.linalg.norm(executor.env.robots_joint_velocities[robot_name])
 
         # Vérifier si la vitesse diminue brusquement (détection de contact)
-        if current_velocity < previous_velocity * 0.7:  # Seuil ajustable (70% de la vitesse précédente)
+        if current_velocity < previous_velocity * 0.9:  # Seuil ajustable (70% de la vitesse précédente)
             logging.info(f"⚠️ {robot_name} detected contact at Z = {current_z} (velocity drop)")
             detected_contact = True
             break  # Arrêter immédiatement la descente dès que le contact est détecté
@@ -156,11 +156,14 @@ def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.
         return False
 
     logging.info(f"✅ {robot_name} successfully grasped the Kapla! Retracting now.")
+    safe_retract_height = grasp_z + 0.05  # Monter de 5 cm directement
+    executor.moveL(robot_name, (x, y, safe_retract_height), speed=2.0, tolerance=0.003)
     executor.moveJ(robot_name, above_pickup_config, speed=2.0, acceleration=2.0, tolerance=0.05)
 
     return True
 
-def disassemble_block_tower(executor, block_positions, pile_positions, block_height=0.015):
+
+def disassemble_block_tower(executor, env, block_positions, pile_positions, block_height=0.015):
     sorted_blocks = detect_and_sort_blocks(block_positions)
     for i, position in enumerate(sorted_blocks):
         pile_index = i % 4
@@ -171,16 +174,15 @@ def disassemble_block_tower(executor, block_positions, pile_positions, block_hei
         x, y = position[0], position[1]
         start_height = position[2] + 0.05  # Estimation initiale
 
-
         # Utiliser la nouvelle fonction pour récupérer le Kapla
-        success = pick_up_part3(executor, "ur5e_2", x, y, start_height)
-        if not success:
-            logging.warning(f"Failed to pick up block at ({x}, {y}). Skipping.")
-            continue
+        success = pick_up_part3(executor, "ur5e_2", x, y+0.01, start_height)
+
 
         # Déplacer le Kapla vers la pile
         executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
-        executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position)
+        executor.put_down("ur5e_2", new_target_position[0],new_target_position[1],new_target_position[2])
+        #executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position)
+
         executor.deactivate_grasp()
         executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
 
@@ -188,17 +190,17 @@ def disassemble_block_tower(executor, block_positions, pile_positions, block_hei
 
 def main():
     block_positions = [
-        [-0.8, -0.6, 0.03], [-0.8, -0.4, 0.03],
-        [-0.7, -0.5, 0.05], [-0.9, -0.5, 0.05],
-        [-0.8, -0.6, 0.07], [-0.8, -0.4, 0.07],
-        [-0.7, -0.5, 0.09], [-0.9, -0.5, 0.09],
-        [-0.8, -0.6, 0.11], [-0.8, -0.4, 0.11],
-        [-0.7, -0.5, 0.13], [-0.9, -0.5, 0.13]
+        [-0.8, -0.7, 0.03], [-0.8, -0.5, 0.03],
+        [-0.7, -0.6, 0.05], [-0.9, -0.6, 0.05],
+        [-0.8, -0.7, 0.07], [-0.8, -0.5, 0.07],
+        [-0.7, -0.6, 0.09], [-0.9, -0.6, 0.09],
+        [-0.8, -0.7, 0.11], [-0.8, -0.5, 0.11],
+        [-0.7, -0.6, 0.13], [-0.9, -0.6, 0.13]
     ]
-    pile_positions = [[-0.5, -0.5, 0.02], [-0.5, -0.5, 0.02], [-0.8, -0.8, 0.02], [-0.8, -0.8, 0.02]]
+    pile_positions = [[-0.5, -0.5, 0.02], [-0.5, -0.5, 0.02], [-0.5, -0.8, 0.02], [-0.5, -0.8, 0.02]]
 
     env, executor = initialize_environment(block_positions)
-    disassemble_block_tower(executor, block_positions, pile_positions)
+    disassemble_block_tower(executor, env, block_positions, pile_positions)
     logging.info("Disassembly completed successfully!")
 
 if __name__ == "__main__":

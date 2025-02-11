@@ -17,9 +17,9 @@ def relay_race_transfer(start_position, handover_position):
     """
     # Check the limits
     # Check if the target location is within the workspace limits
-    #if not (workspace_x_lims[0] <= handover_position[0] <= workspace_x_lims[1] and workspace_y_lims[0] <= handover_position[
-     #   1] <= workspace_y_lims[1]):
-     #   raise ValueError("Target location is out of workspace limits")
+    """if not (workspace_x_lims[0] <= handover_position[0] <= workspace_x_lims[1] and workspace_y_lims[0] <= handover_position[
+        1] <= workspace_y_lims[1]):
+        raise ValueError("Target location is out of workspace limits")"""
 
     executor_1.move_home()
    # executor_2.move_home()
@@ -54,6 +54,49 @@ def relay_race_transfer(start_position, handover_position):
 
 
 
+def relay_race_transfer_2(start_position, handover_position):
+    """
+    Manage the transfer of a cube between two robots.
+
+    :param start_position: Starting position (cube pickup location)
+    :param handover_position: Position where the handover occurs
+    :param end_position: Final position where the cube is placed
+    """
+    # Check the limits
+    # Check if the target location is within the workspace limits
+    """if not (workspace_x_lims[0] <= handover_position[0] <= workspace_x_lims[1] and workspace_y_lims[0] <= handover_position[
+        1] <= workspace_y_lims[1]):
+        raise ValueError("Target location is out of workspace limits")"""
+
+    executor_1.move_home()
+    executor_2.move_home()
+    # Initial pickup by ur5e_2
+    executor_2.pick_up( start_position[0], start_position[1],0, start_position[2] + 0.12)
+
+    #executor_2.plan_and_move_to_xyzrz(-0.5, -0.7, 0.6, 0)
+
+    # Handover to ur5e_1
+    w_hp = gt.point_world_to_robot(ur5e_1["name"],handover_position)
+    executor_1.plan_and_move_to_xyzrz(w_hp[0], w_hp[1], w_hp[2], 0)
+
+    # turn ur5e_1 head
+    ur5e_1_position = list(executor_1.getActualQ())
+    ur5e_1_position[-2] = ur5e_1_position[-2]+3.14
+    executor_1.moveJ(ur5e_1_position)
+    to_move = executor_1.getActualTCPPose()
+
+    # Move ur5e_2 to handover position
+    executor_2.plan_and_move_to_xyzrz(to_move[0], to_move[1], to_move[2]+0.1, 0.78)
+
+    # Movedown ur5e_2
+    executor_2.plan_and_move_to_xyzrz(handover_position[0], handover_position[1], handover_position[2]+0.25, 0)
+    executor_2.release_grasp()
+    executor_1.grasp()
+    executor_1.move_home()
+
+
+
+
 
 block_positions = [
     [-0.7, -0.6, 0.03],
@@ -62,7 +105,7 @@ block_positions = [
     [-0.7, -0.9, 0.03]]
 
 
-handover_position=[-0.58, -0.65, 0.05]
+handover_position=[-0.28, -0.75, 0.05]
 
 
 start_position = [-0.5, -0.5, 0.03]
