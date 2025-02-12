@@ -81,10 +81,12 @@
 #
 # # Désassemblage de la tour et formation de 3 piles
 # disassemble_block_tower(pile_positions, block_positions)
+
 from sim_ur5.mujoco_env.sim_env import SimEnv
 from sim_ur5.motion_planning.motion_executor import MotionExecutor
 import logging
 import numpy as np
+
 
 def initialize_environment(block_positions):
     env = SimEnv()
@@ -95,17 +97,14 @@ def initialize_environment(block_positions):
 def detect_and_sort_blocks(block_positions):
     return sorted(block_positions, key=lambda x: x[2], reverse=True)
 
-import logging
-import numpy as np
 
 def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.001, retract_height=0.002, speed=0.1):
     """
-    Descente progressive jusqu'à détection de contact à partir de la vitesse du robot,
-    puis récupération de la position réelle de l'effecteur à partir de la simulation.
+    Progressive descent until contact detection based on the robot's speed,
+    then retrieve the actual end-effector position from the simulation.
     """
     logging.info(f"🔹 {robot_name} attempting to pick up at ({x}, {y}) from start height {start_height}")
-
-    # Déplacement au-dessus de la position cible
+    # Move on top of the target
     if not executor.plan_and_move_to_xyz_facing_down(robot_name, [x, y, start_height], speed=2.0, acceleration=2.0):
         logging.error(f"❌ {robot_name} unable to reach start position. Aborting pick-up.")
         return False
@@ -113,54 +112,50 @@ def pick_up_part3(executor, robot_name, x, y, start_height=0.25, descent_step=0.
     above_pickup_config = executor.env.robots_joint_pos[robot_name]
     executor.deactivate_grasp()
 
-    # Descente progressive jusqu'à détection de contact
+    # Descend slowly until contact is detected
     logging.info(f"🔻 {robot_name} descending slowly until contact is detected...")
     current_z = start_height
-    previous_velocity = np.inf  # Valeur initiale élevée pour détecter une baisse
+    previous_velocity = np.inf
     detected_contact = False
 
-    while current_z > 0.02:  # Empêcher la descente excessive
+    # loop for progressive descent and contact detection
+    while current_z > 0.02:  # Stop before reaching the table
         current_z -= descent_step
         executor.moveL(robot_name, (x, y, current_z), speed=speed, tolerance=0.001)
 
-        # Récupérer la vitesse actuelle du robot
+        # retrieve the current velocity of the robot
         current_velocity = np.linalg.norm(executor.env.robots_joint_velocities[robot_name])
-
-        # Vérifier si la vitesse diminue brusquement (détection de contact)
-        if current_velocity < previous_velocity * 0.9:  # Seuil ajustable (70% de la vitesse précédente)
+        if current_velocity < previous_velocity * 0.9: # Contact detection: drop in velocity
             logging.info(f"⚠️ {robot_name} detected contact at Z = {current_z} (velocity drop)")
             detected_contact = True
-            break  # Arrêter immédiatement la descente dès que le contact est détecté
+            break  # stop if contact is detected
 
-        previous_velocity = current_velocity  # Mise à jour pour la prochaine itération
+        previous_velocity = current_velocity
 
     if not detected_contact:
         logging.warning(f"⚠️ {robot_name} did not detect contact. Retrying...")
         return False
 
-    # Récupération de la position exacte de l'effecteur dans la simulation
+    # Retrieve the exact position of the end effector in the simulation
     ee_position = executor.env.get_ee_pos()
     grasp_z = ee_position[2] + retract_height
-
     logging.info(f"📏 Adjusted grasp height based on simulation: {grasp_z}")
 
-    # Ajustement fin avant saisie
+    # Fine adjustment before grasping
     executor.moveL(robot_name, (x, y, grasp_z), speed=1.0, tolerance=0.003)
     logging.info(f"🔄 Activating gripper for {robot_name}...")
     executor.activate_grasp()
 
-    # Vérifier si la prise est réussie
+    # # Check if the grasp is successful
     if not executor.env.is_object_grasped():
         logging.warning(f"⚠️ {robot_name} failed to grasp the object. Retrying...")
         executor.deactivate_grasp()
         return False
 
     logging.info(f"✅ {robot_name} successfully grasped the Kapla! Retracting now.")
-    safe_retract_height = grasp_z + 0.05  # Monter de 5 cm directement
+    safe_retract_height = grasp_z + 0.05  # Safe height to retract
     executor.moveL(robot_name, (x, y, safe_retract_height), speed=2.0, tolerance=0.003)
     executor.moveJ(robot_name, above_pickup_config, speed=2.0, acceleration=2.0, tolerance=0.05)
-
-    return True
 
 
 def disassemble_block_tower(executor, env, block_positions, pile_positions, block_height=0.015):
@@ -170,22 +165,15 @@ def disassemble_block_tower(executor, env, block_positions, pile_positions, bloc
         target_pile = pile_positions[pile_index]
         new_target_position_up = [target_pile[0], target_pile[1], 0.2 + target_pile[2] + (i // 4) * block_height]
         new_target_position = [target_pile[0], target_pile[1], target_pile[2] + (i // 3) * block_height]
-
         x, y = position[0], position[1]
-        start_height = position[2] + 0.05  # Estimation initiale
+        start_height = position[2] + 0.05  # initial estimation
 
-        # Utiliser la nouvelle fonction pour récupérer le Kapla
-        success = pick_up_part3(executor, "ur5e_2", x, y+0.01, start_height)
-
-
-        # Déplacer le Kapla vers la pile
-        executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
+        # Motion
+        pick_up_part3(executor, "ur5e_2", x, y+0.01, start_height)
+        executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up,speed=2, acceleration=2)
         executor.put_down("ur5e_2", new_target_position[0],new_target_position[1],new_target_position[2])
-        #executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position)
-
         executor.deactivate_grasp()
-        executor.plan_and_move_to_xyz_facing_down("ur5e_2", new_target_position_up)
-
+        executor.plan_and_move_to_xyz_facing_down("ur5e_2",  new_target_position_up, speed=2, acceleration=2)
 
 
 def main():
