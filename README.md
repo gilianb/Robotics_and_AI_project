@@ -1,46 +1,18 @@
-# Temporary Simulation Environment
+# There is two main part in this project the first one in a simulation one:
+SIM_UR5
 
 This repository contains a temporary simulation environment for testing and developing robot control algorithms using the UR5e robot model in a MuJoCo physics simulation.
-
-## Overview
-
 The simulation environment provides a simplified setup for:
 - UR5e robot arm simulation
 - Basic pick and place operations
 - Motion planning and execution
 - Block manipulation tasks
 
-## Prerequisites
 
-- Python 3.10 or 3.11
-- MuJoCo physics engine
-- Required Python packages (see `requirements.txt`)
+# the second one is the implmentation and adaptation of the code to real life robot in the lab 
+LAB_UR5
+- 2 real robot arm
+- basics operation
+- capability to work one with an other
 
-## Clone the repository:
-
-```bash
-git clone https://github.com/CLAIR-LAB-TECHNION/AIR_robots_sim.git
-cd AIR_robots_sim
-```
-
-## Key Components
-
-### SimEnv Class
-- Main simulation environment
-- Handles physics simulation
-- Manages robot and object states
-
-### MotionExecutor Class
-- Executes robot movements
-- Provides high-level movement commands
-- Handles pick and place operations
-
-## Common Issues and Solutions
-
-1. **Robot Out of Workspace**
-   - Ensure target positions are within workspace limits
-   - Check z-height for pick and place operations
-
-2. **Motion Planning Failures**
-   - Verify start and goal positions are valid
-   - Check for obstacles in the path
+  ENJOY the videos demonstration or test the code yourself 
