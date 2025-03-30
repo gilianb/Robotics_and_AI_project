@@ -17,3 +17,31 @@ LAB_UR5
 
 # ENJOY the videos demonstration or test the code yourself 
 AIR_VIDEOS
+
+Usage
+To run the simulation environment:
+
+bash
+Copier
+Modifier
+python sim_ur5/main.py
+To run the lab environment:
+
+bash
+Copier
+Modifier
+python lab_ur5/main.py
+Contributing
+Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+pgsql
+Copier
+Modifier
+
+
+This README provides an overview of your project, its structure, installation instructions, usage, and contribution guidelines. Feel free to customize it further to suit your project's specific needs.&#8203;:contentReference[oaicite:2]{index=2}
+::contentReference[oaicite:3]{index=3}
+ 
