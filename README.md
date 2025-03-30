@@ -1,47 +1,86 @@
-# There is two main part in this project the first one in a simulation one:
-SIM_UR5
+# Robotics and AI Project
 
-This repository contains a temporary simulation environment for testing and developing robot control algorithms using the UR5e robot model in a MuJoCo physics simulation.
-The simulation environment provides a simplified setup for:
+This repository contains a project focused on robot control algorithms, with both a simulated environment and real-world implementation. It is divided into two main parts:
+
+## 1. Simulation Environment (SIM_UR5)
+The **SIM_UR5** section provides a temporary simulation environment for testing and developing robot control algorithms using the UR5e robot model in a MuJoCo physics simulation.
+
+### Features:
 - UR5e robot arm simulation
-- Basic pick and place operations
+- Basic pick-and-place operations
 - Motion planning and execution
 - Block manipulation tasks
 
+## 2. Real Robot Implementation (LAB_UR5)
+The **LAB_UR5** section focuses on adapting the control algorithms for real-life robots in the lab.
 
-# the second one is the implmentation and adaptation of the code to real life robot in the lab 
-LAB_UR5
-- 2 real robot arm
-- basics operation
-- capability to work one with an other
+### Features:
+- Two real UR5e robot arms
+- Basic operations
+- Coordinated task execution between robots
 
-# ENJOY the videos demonstration or test the code yourself 
-AIR_VIDEOS
+## 3. Video Demonstrations (AIR_VIDEOS)
+Enjoy watching our robots in action! The **AIR_VIDEOS** section contains video demonstrations showcasing the project’s progress and results.
 
-Usage
-To run the simulation environment:
+---
 
-bash
-Copier
-Modifier
+## Installation & Usage
+
+### Prerequisites
+Ensure you have Python installed along with the required dependencies. You may need MuJoCo for simulation and other necessary libraries.
+
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/gilianb/Robotics_and_AI_project.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd Robotics_and_AI_project
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Running the Simulation
+To run the **SIM_UR5** environment, execute:
+```bash
 python sim_ur5/main.py
-To run the lab environment:
+```
 
-bash
-Copier
-Modifier
+### Running the Real Robot Implementation
+For real-world execution in **LAB_UR5**, run:
+```bash
 python lab_ur5/main.py
-Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+```
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+For detailed usage instructions, refer to the documentation in `docs/usage.md`.
 
-pgsql
-Copier
-Modifier
+---
 
+## Contributing
+We welcome contributions from the community! To contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push them to your fork.
+4. Submit a pull request with a detailed description of your modifications.
 
-This README provides an overview of your project, its structure, installation instructions, usage, and contribution guidelines. Feel free to customize it further to suit your project's specific needs.&#8203;:contentReference[oaicite:2]{index=2}
-::contentReference[oaicite:3]{index=3}
- 
+Please review our contributing guidelines before submitting changes.
+
+---
+
+## License
+This project is licensed under the MIT License, and the work of the CLAIR Lab of the Technion is under the supervision of Dr Sarah Keren.
+
+---
+
+## Contact
+For questions, suggestions, or feedback, feel free to reach out:
+
+**Project Maintainer:** Gilian B.  
+📧 Email: gilian.bns@gmail.com
+
+---
+
+🚀 **Explore the code, test it, and enjoy the journey into robotics and AI!**
