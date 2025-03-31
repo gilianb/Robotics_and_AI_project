@@ -71,7 +71,7 @@ Please review our contributing guidelines before submitting changes.
 ---
 
 ## License
-This project is licensed under the MIT License, and the work of the CLAIR Lab of the Technion is under the supervision of Dr Sarah Keren.
+This project is licensed under the CLAIR Lab of the Technion under Dr Sarah Keren's supervision.
 
 ---
 
