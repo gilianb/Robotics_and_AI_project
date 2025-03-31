@@ -78,7 +78,7 @@ This project is licensed under the CLAIR Lab of the Technion under Dr Sarah Kere
 ## Contact
 For questions, suggestions, or feedback, feel free to reach out:
 
-**Project Maintainer:** Gilian B.  
+**Project Maintainer:** Gilian B.  and Ruben F.
 📧 Email: gilian.bns@gmail.com
 
 ---
